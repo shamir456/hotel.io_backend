@@ -49,4 +49,33 @@ public class UserServiceImp implements UserService
 
     }
 
+    @Override
+    public User save(User user)
+    {
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User findById(long id) {
+        return userRepository.findById(id);
+    }
+
+//    @Override
+//    public User findById(Long id)
+//    {
+//        return userRepository.findById(id);
+//    }
+
+    @Override
+    public User findByUsername(String username)
+    {
+        return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public User findByEmail(String email)
+    {
+        return userRepository.findByEmail(email);
+    }
+
 }

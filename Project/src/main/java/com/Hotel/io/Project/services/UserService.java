@@ -8,5 +8,10 @@ import java.util.Set;
 public interface UserService
 {
     User createUser(User user, Set<UserRole> userRoles);
+    User findByUsername(String name);
+
+    User findByEmail(String email);
+    User save(User user);
+    User findById(long id);
 
 }
