@@ -46,6 +46,7 @@ public class LoginController
         return new ResponseEntity("Session Active!", HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "http://192.168.0.101:4200")
     @RequestMapping(value = "/user/logout",method = RequestMethod.POST)
     public ResponseEntity logout()
     {

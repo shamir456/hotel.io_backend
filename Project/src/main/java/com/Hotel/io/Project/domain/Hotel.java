@@ -5,10 +5,11 @@ package com.Hotel.io.Project.domain;
 
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Hotel implements Serializable {
@@ -23,20 +24,31 @@ public class Hotel implements Serializable {
     private String  location;
     private  String img;
 
-    @OneToMany(mappedBy = "hotel",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private Set<Room> rooms =new HashSet<>();
+    //@JsonBackReference
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "hotel")
+    private List<Room> rooms = new ArrayList<>();
 
-    public Hotel(String hotelname, String rating, String location, String img, Set<Room> rooms) {
+    public Hotel(String hotelname, String rating, String location, String img, List<Room> rooms) {
         this.hotelname = hotelname;
         this.rating = rating;
         this.location = location;
         this.img = img;
         this.rooms = rooms;
     }
+    public Hotel() {
+    }
+    public Hotel(String hotelname, String rating, String location, String img) {
+        this.hotelname = hotelname;
+        this.rating = rating;
+        this.location = location;
+        this.img = img;
+    }
 
-    public void addRoom(Room room)
+    public Room addRoom(Room room)
     {
         this.rooms.add(room);
+
+        return room;
     }
 
     public void removeRoom(Room room)
@@ -47,7 +59,8 @@ public class Hotel implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
@@ -83,11 +96,11 @@ public class Hotel implements Serializable {
         this.img = img;
     }
 
-    public Set<Room> getRooms() {
-        return rooms;
+    public List<Room> getRooms() {
+        return (List<Room>) rooms;
     }
 
-    public void setRooms(Set<Room> rooms) {
+    public void setRooms(List<Room> rooms) {
         this.rooms = rooms;
     }
 }

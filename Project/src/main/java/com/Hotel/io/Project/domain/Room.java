@@ -1,6 +1,8 @@
 package com.Hotel.io.Project.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -12,7 +14,9 @@ public class Room implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
+   // @JsonManagedReference
+   @ManyToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "hotel_id", nullable = false)
     private Hotel hotel;
 
 
@@ -22,12 +26,35 @@ public class Room implements Serializable {
     private  String img;
 
 
-    public Room(Hotel hotel, String room_name, String rating, String price, String img) {
+    private boolean isenabled=true;
+    public boolean isIsenabled() {
+        return isenabled;
+    }
+
+    public void setIsenabled(boolean isenabled) {
+        this.isenabled = isenabled;
+    }
+
+    public Room() {
+    }
+    public Room(Hotel hotel, String room_name, String rating, String price, String img,boolean isenabled) {
         this.hotel = hotel;
         this.room_name = room_name;
         this.rating = rating;
         this.price = price;
         this.img = img;
+        this.isenabled=isenabled;
+    }
+
+    public Room(String room_name, String rating, String price, String img) {
+        this.room_name = room_name;
+        this.rating = rating;
+        this.price = price;
+        this.img = img;
+    }
+
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
     }
 
     public static long getSerialVersionUID() {

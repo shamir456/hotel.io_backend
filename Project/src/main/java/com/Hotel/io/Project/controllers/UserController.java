@@ -1,5 +1,6 @@
 package com.Hotel.io.Project.controllers;
 
+import com.Hotel.io.Project.config.SecurityConfig;
 import com.Hotel.io.Project.config.SecurityUtility;
 import com.Hotel.io.Project.domain.User;
 import com.Hotel.io.Project.domain.security.Role;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -100,6 +102,75 @@ public class UserController
 
 
         return new ResponseEntity("Email Sent",HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/updateUserInfo",method = RequestMethod.POST)
+    public ResponseEntity profileInfo(
+            @RequestBody HashMap<String,Object> mapper
+    )throws Exception{
+        int id=(Integer)mapper.get("id");
+        String email=(String)mapper.get("email");
+        String username=(String)mapper.get("username");
+        String firstname=(String) mapper.get("firstname");
+        String lastname=(String)mapper.get("lastname");
+        String newPassword=(String)mapper.get("newPassword");
+        String currentPassword=(String)mapper.get("currentPassword");
+
+        User currentUser=userService.findById(Long.valueOf(id));
+        if(currentUser==null)
+        {
+            throw new Exception("User not found");
+        }
+        if (userService.findByEmail(email)!=null)
+        {
+            if (userService.findByEmail(email).getId()!=currentUser.getId())
+            {
+                return new ResponseEntity("Email not found",HttpStatus.BAD_REQUEST);
+
+            }
+
+        }
+
+
+        if (userService.findByUsername(username)!=null)
+        {
+            if (userService.findByUsername(username).getId()!=currentUser.getId())
+            {
+                return new ResponseEntity("username not found",HttpStatus.BAD_REQUEST);
+
+            }
+
+        }
+        SecurityConfig securityConfig=new SecurityConfig();
+
+        if(newPassword!=null && !newPassword.isEmpty() && !newPassword.equals("")) {
+            BCryptPasswordEncoder passwordEncoder = SecurityUtility.passwordEncoder();
+            String dbpassword = currentUser.getPassword();
+            if (currentPassword.equals(dbpassword))
+            {
+                currentUser.setPassword(passwordEncoder.encode(newPassword));
+            }
+            else {
+                return new ResponseEntity("Incorrect password",HttpStatus.BAD_REQUEST);
+
+
+            }
+
+        }
+
+        currentUser.setFirstname(firstname);
+        currentUser.setLastname(lastname);
+        currentUser.setUsername(username);
+        currentUser.setEmail(email);
+
+        userService.save(currentUser);
+
+        return new ResponseEntity("Updated",HttpStatus.OK);
+
+
+
+
+
     }
 
 
