@@ -5,15 +5,13 @@ import com.Hotel.io.Project.domain.Hotel;
 import com.Hotel.io.Project.domain.Room;
 import com.Hotel.io.Project.services.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://192.168.43.204:4200")
 @RequestMapping(value = "/room")
 public class RoomController {
 

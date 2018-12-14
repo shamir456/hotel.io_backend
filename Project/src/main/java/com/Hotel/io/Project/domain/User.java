@@ -7,6 +7,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
@@ -23,18 +25,33 @@ public class User implements UserDetails, Serializable
     @Column(name = "Id",nullable = false,updatable = false)
     private Long id;
 
+
+    @NotBlank
+    @Column(unique = true)
+    @Size(min = 1, max = 100)
     private String username;
+
+
     private String password;
+
     private String firstname;
+
     private String lastname;
 
+    @NotBlank
     private String email;
+
     private String phone;
     private boolean enabled =true;
+
+
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JsonIgnore// used to ignore this set as entity will be serialized for Rest json
     private Set<UserRole> userRole =new HashSet<>();
+
+//    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy="user", orphanRemoval = true)
+//    private Set<Hotel> hotels = new HashSet<Hotel>();
 
     public Long getId() {
         return id;

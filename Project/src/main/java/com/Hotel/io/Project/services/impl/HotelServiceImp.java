@@ -29,6 +29,7 @@ public class HotelServiceImp implements HotelService
 
         for (Hotel hotel: hotellist)
         {
+
             activeHotelList.add(hotel);
 
         }

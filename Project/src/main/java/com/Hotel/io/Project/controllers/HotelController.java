@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "http://192.168.43.204:4200")
 @RequestMapping(value = "/hotel")
 public class HotelController {
 
@@ -24,11 +25,17 @@ public class HotelController {
         return hotelService.findAll();
     }
 
+    @RequestMapping(value = "/{id}",produces ={"application/json"})
+    public Optional<Hotel> getHotel(@PathVariable("id") Long id)
+    {
+        return hotelService.find(id);
+    }
+
     @RequestMapping(value = "/save",method = RequestMethod.POST,consumes ={"application/json"})
     public Optional<Hotel> save(@RequestBody Hotel hotel) {
         List<Room> room =new ArrayList<Room>(hotel.getRooms());
 
-         
+
 
         return hotelService.addHotelRooms(hotel,room);
     }

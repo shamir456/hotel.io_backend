@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface HotelRepository extends CrudRepository<Hotel,Long> {
     //List<Hotel> findByTitleContaining(String keyword);
-    Hotel findOne(Long id);
+   // Hotel findOne(Long id);
+  // Hotel findHotelById(Long id);
 
 
 }

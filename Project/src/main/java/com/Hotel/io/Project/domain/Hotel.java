@@ -8,10 +8,13 @@ package com.Hotel.io.Project.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.*;
 
 @Entity
+@Table(name = "hotel")
 public class Hotel implements Serializable {
     private static final long serialVersionUID=425345L;
 
@@ -19,7 +22,11 @@ public class Hotel implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank
+    @Column(unique = true)
+    @Size(min = 1, max = 100)
     private String    hotelname;
+
     private String    rating;
     private String  location;
     private  String img;

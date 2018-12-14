@@ -1,12 +1,16 @@
 package com.Hotel.io.Project.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
+@Table(name = "room")
 public class Room implements Serializable {
     private static final long serialVersionUID=425345L;
 
@@ -18,6 +22,10 @@ public class Room implements Serializable {
    @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "hotel_id", nullable = false)
     private Hotel hotel;
+
+
+
+
 
 
     private String  room_name;

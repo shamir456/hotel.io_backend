@@ -18,14 +18,14 @@ import java.util.Collections;
 import java.util.Map;
 
 
-@CrossOrigin(origins = "http://192.168.0.101:4200")
+@CrossOrigin(origins = "http://192.168.43.204:4200")
 @RestController
 public class LoginController
 {
     @Autowired
     private UserService userService;
 
-    @CrossOrigin(origins = "http://192.168.0.101:4200")
+    @CrossOrigin(origins = "http://192.168.0.100:4200")
     @RequestMapping(value = "/token")
     public Map<String,String> token(HttpSession session, HttpServletRequest request)
     {
@@ -39,19 +39,20 @@ public class LoginController
 
         return Collections.singletonMap("token",session.getId());
     }
-    @CrossOrigin(origins = "http://192.168.0.101:4200")
+    @CrossOrigin(origins = "http://192.168.0.100:4200")
     @RequestMapping("/checkSession")
     public ResponseEntity checkSession()
     {
         return new ResponseEntity("Session Active!", HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://192.168.0.101:4200")
+    @CrossOrigin(origins = "http://192.168.0.100:4200")
     @RequestMapping(value = "/user/logout",method = RequestMethod.POST)
     public ResponseEntity logout()
     {
         SecurityContextHolder.clearContext();
         return new ResponseEntity("Logout Successfully",HttpStatus.OK);
     }
+
 
 }

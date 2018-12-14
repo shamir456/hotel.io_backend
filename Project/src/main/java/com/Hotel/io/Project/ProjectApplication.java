@@ -10,6 +10,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
@@ -17,6 +18,7 @@ import java.util.Set;
 
 @SpringBootApplication
 @EnableJpaAuditing
+@EnableTransactionManagement
 public class ProjectApplication implements CommandLineRunner {
 
 	@Autowired
@@ -33,9 +35,9 @@ public class ProjectApplication implements CommandLineRunner {
 		User user1 = new User();
 		user1.setLastname("John");
 		user1.setFirstname("Adams");
-		user1.setUsername("j");
-		user1.setPassword(SecurityUtility.passwordEncoder().encode("p"));
-		user1.setEmail("JAdams@gmail.com");
+		user1.setUsername("Shameer");
+		user1.setPassword(SecurityUtility.passwordEncoder().encode("jp"));
+		user1.setEmail("k164030@nu.edu.pk");
 		Set<UserRole> userRoles = new HashSet<>();
 		Role role1 = new Role();
 		role1.setRoleId(1);
@@ -50,7 +52,7 @@ public class ProjectApplication implements CommandLineRunner {
 		user2.setFirstname("Admin");
 		user2.setLastname("Admin");
 		user2.setUsername("admin");
-		user2.setPassword(SecurityUtility.passwordEncoder().encode("p"));
+		user2.setPassword(SecurityUtility.passwordEncoder().encode("pp"));
 		user2.setEmail("Admin@gmail.com");
 		Role role2 = new Role();
 		role2.setRoleId(0);

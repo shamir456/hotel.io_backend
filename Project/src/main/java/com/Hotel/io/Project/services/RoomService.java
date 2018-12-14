@@ -10,6 +10,7 @@ public interface RoomService
     List<Room> findAllRoom();
     Optional<Room> findRoom(Long id);
     Room saveRoom(Room room);
+    void updateRoom(Room room);
     //  List<Hotel> blurrySearch(String title);
     void removeRoom(Long id);
 }

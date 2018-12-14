@@ -38,7 +38,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                     "/image/**",
                     "/hotel/**",
                     "/room/**",
-                    "/user/**"
+                    "/user/**",
+                    "/booking/**",
+                    "/rooms/**"
 
             };
     protected void configure(HttpSecurity http) throws Exception
