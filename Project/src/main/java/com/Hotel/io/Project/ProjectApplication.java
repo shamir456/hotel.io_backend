@@ -26,6 +26,9 @@ import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -34,6 +37,9 @@ import java.util.Set;
 @EnableJpaAuditing
 @EnableTransactionManagement
 public class ProjectApplication implements CommandLineRunner {
+
+	@Value("${server.port:8443}") 
+	private int serverPort;
 
 	@Autowired
 	private UserService userService;
@@ -91,16 +97,31 @@ public class ProjectApplication implements CommandLineRunner {
 				context.addConstraint(securityConstraint);
 			}
 		};
-		tomcat.addAdditionalTomcatConnectors(redirectConnector());
+
+		tomcat.addConnectorCustomizers(new TomcatConnectorCustomizer() {
+			
+			@Override
+			public void customize(Connector connector) {
+				((AbstractHttp11Protocol<?>) connector.getProtocolHandler()).setMaxSwallowSize(-1);				
+			}
+		});
+
+		tomcat.addAdditionalTomcatConnectors(initiateHttpConnector());
 		return tomcat;
 	}
 
-	private Connector redirectConnector() {
+	private Connector initiateHttpConnector() {
 		Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
 		connector.setScheme("http");
 		connector.setPort(8080);
 		connector.setSecure(false);
-		connector.setRedirectPort(8443);
+		connector.setRedirectPort(serverPort);
+
+		//Tomcat maxSwallowSize sets to 2MB by default.
+	    //To set the maxSwallowSize property of Tomcat https://tomcat.apache.org/tomcat-8.0-doc/config/http.html
+	    //http://stackoverflow.com/questions/35748022/multipart-file-maximum-size-exception-spring-boot-embbeded-tomcat
+	    
+		((AbstractHttp11Protocol<?>) connector.getProtocolHandler()).setMaxSwallowSize(11534336);
 		return connector;
 	}
 }
