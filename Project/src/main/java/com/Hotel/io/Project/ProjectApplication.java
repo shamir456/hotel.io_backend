@@ -84,44 +84,44 @@ public class ProjectApplication implements CommandLineRunner {
 
 
 
-	@Bean
-	public ServletWebServerFactory servletContainer() {
-		TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
-			@Override
-			protected void postProcessContext(Context context) {
-				SecurityConstraint securityConstraint = new SecurityConstraint();
-				securityConstraint.setUserConstraint("CONFIDENTIAL");
-				SecurityCollection collection = new SecurityCollection();
-				collection.addPattern("/*");
-				securityConstraint.addCollection(collection);
-				context.addConstraint(securityConstraint);
-			}
-		};
+	// @Bean
+	// public ServletWebServerFactory servletContainer() {
+	// 	TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
+	// 		@Override
+	// 		protected void postProcessContext(Context context) {
+	// 			SecurityConstraint securityConstraint = new SecurityConstraint();
+	// 			securityConstraint.setUserConstraint("CONFIDENTIAL");
+	// 			SecurityCollection collection = new SecurityCollection();
+	// 			collection.addPattern("/*");
+	// 			securityConstraint.addCollection(collection);
+	// 			context.addConstraint(securityConstraint);
+	// 		}
+	// 	};
 
-		tomcat.addConnectorCustomizers(new TomcatConnectorCustomizer() {
+	// 	tomcat.addConnectorCustomizers(new TomcatConnectorCustomizer() {
 			
-			@Override
-			public void customize(Connector connector) {
-				((AbstractHttp11Protocol<?>) connector.getProtocolHandler()).setMaxSwallowSize(-1);				
-			}
-		});
+	// 		@Override
+	// 		public void customize(Connector connector) {
+	// 			((AbstractHttp11Protocol<?>) connector.getProtocolHandler()).setMaxSwallowSize(-1);				
+	// 		}
+	// 	});
 
-		tomcat.addAdditionalTomcatConnectors(initiateHttpConnector());
-		return tomcat;
-	}
+	// 	tomcat.addAdditionalTomcatConnectors(initiateHttpConnector());
+	// 	return tomcat;
+	// }
 
-	private Connector initiateHttpConnector() {
-		Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
-		connector.setScheme("http");
-		connector.setPort(8080);
-		connector.setSecure(false);
-		connector.setRedirectPort(serverPort);
+	// private Connector initiateHttpConnector() {
+	// 	Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+	// 	connector.setScheme("http");
+	// 	connector.setPort(8080);
+	// 	connector.setSecure(false);
+	// 	connector.setRedirectPort(serverPort);
 
-		//Tomcat maxSwallowSize sets to 2MB by default.
-	    //To set the maxSwallowSize property of Tomcat https://tomcat.apache.org/tomcat-8.0-doc/config/http.html
-	    //http://stackoverflow.com/questions/35748022/multipart-file-maximum-size-exception-spring-boot-embbeded-tomcat
+	// 	//Tomcat maxSwallowSize sets to 2MB by default.
+	//     //To set the maxSwallowSize property of Tomcat https://tomcat.apache.org/tomcat-8.0-doc/config/http.html
+	//     //http://stackoverflow.com/questions/35748022/multipart-file-maximum-size-exception-spring-boot-embbeded-tomcat
 	    
-		((AbstractHttp11Protocol<?>) connector.getProtocolHandler()).setMaxSwallowSize(11534336);
-		return connector;
-	}
+	// 	((AbstractHttp11Protocol<?>) connector.getProtocolHandler()).setMaxSwallowSize(11534336);
+	// 	return connector;
+	// }
 }
